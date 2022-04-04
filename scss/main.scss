@@ -1,0 +1,237 @@
+@import 'variables';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $font-family;
+  font-size: 1rem;
+  line-height: 1.2rem;
+}
+
+img {
+  width: 100%;
+}
+.container {
+  width: 500px;
+  margin: 0 auto;
+}
+
+button {
+  border: none;
+  background: transparent;
+  font-family: $font-family;
+  cursor: pointer;
+}
+
+.error {
+  border: 2px solid #f47174
+}
+
+input {
+  padding: 1rem;
+  border: none;
+  border-radius: 5px;
+  font-family: $font-family;
+  font-size: 1rem;
+  &::placeholder {
+    font-family: $font-family;
+    font-size: 1rem;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+.app{
+  &__background{
+    position: relative;
+    height: 100vh;
+    &.light {
+      background: $bg-light;
+    }
+    &.light::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 35vh;
+      background: url(../images/bg-desktop-light.jpg) no-repeat center center/cover;
+      z-index: 10;
+    }
+    &.dark {
+      background: $bg-dark;
+    }
+    &.dark::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 35vh;
+      background: url(../images/bg-desktop-dark.jpg) no-repeat center center/cover;
+      z-index: 10;
+    }
+      
+  }
+  
+  &__header{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+    padding-top: 65px;
+    color: $bg-light;
+  }
+  &__logo {
+    letter-spacing: 0.4rem;
+    z-index: 50;
+  }
+  
+  &__toggle-theme.light,
+  &__toggle-theme.dark{
+    background: transparent;
+    width: 20px;
+    height: 20px;
+    border: none;
+    margin-left: auto;
+    background: url('../images/icon-moon.svg') no-repeat center center/cover; 
+    z-index: 50;
+  }
+  &__toggle-theme.dark{
+    background: url('../images/icon-sun.svg') no-repeat center center/cover;
+  }
+  &__input-task {
+    background-color: $bg-light;
+    margin-top: 40px;
+    grid-column: 1 / span 2;
+    z-index: 50;
+  }
+  &__input-task.light {
+    background-color: $bg-light;
+  }
+  &__input-task.dark {
+    background-color: $bg-dark;
+  }
+
+  .task-list {
+    margin-top: 20px;
+    &__task-card {
+      position: relative;   
+      width: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0.8rem;
+      
+      input:checked ~.checkmark {
+        background: $checked-button-color !important;
+      }
+      input:hover ~.checkmark {
+        border-color: hsl(235, 21%, 11%);
+      }
+      .checkmark {
+        position: relative;
+        height: 20px;
+        width: 20px;
+        border: 1px solid $soft-grey-color;
+        
+        border-radius: 50%;
+        &::after {
+          content: "";
+          position: absolute;
+          top: 4px;
+          right: 4px;
+          width: 10px;
+          height: 10px;
+          background: url(../images/icon-check.svg) no-repeat center center/cover;
+        }
+      }
+      .task-list__checkbox {
+        position: absolute;
+        height: 20px;
+        width: 20px;
+        top: 0.8rem;
+        left: 0.8rem;
+        border-radius: 50%;
+        opacity: 0;
+        cursor: pointer;
+        z-index: 10;
+      }
+      .task-list__task {
+        padding-left: 1rem;
+        font-size: 1rem;
+      }
+      .task-list__clear-task {
+        width: 15px;
+        height: 15px;
+        border: none;
+        margin-left: auto;
+        background: url(../images/icon-cross.svg) no-repeat center center/cover;
+      }
+    }
+    &__task-card.light {
+      background-color: $bg-light;
+      
+      border-bottom: 1px solid hsl(233, 11%, 84%);
+      z-index: 50;
+      .checkmark {
+        background-color: $bg-light;
+      }
+      .task-list__task {
+        color: $text-dark;
+      }
+    }
+    &__task-card.dark {
+      background-color: $bg-task-list-dark;
+      border-bottom: 1px solid hsl(236, 9%, 61%);
+      z-index: 50;
+      .checkmark {
+        background-color: $bg-task-list-dark;
+      }
+      .task-list__task {
+        color: $text-light;
+      }
+    }
+
+    
+    &task.checked {
+      color: $soft-grey-color;
+    }
+    
+    
+  }
+  .interaction-section{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    color: $soft-grey-color;
+    border-radius: 0 0 5px 5px;
+    z-index: 50;
+    &.light {
+      background: $bg-light;
+      button {
+        color: $soft-grey-color;
+        &:hover {
+          color: $text-dark;
+        }
+      }
+    }
+    &.dark {
+      background: $bg-task-list-dark;
+      button {
+        color: $soft-grey-color;
+        &:hover {
+          color: $text-light;
+        }
+      }
+    }
+    
+    &__button-filters > button {
+      margin-left: 5px;
+    }
+  }
+}

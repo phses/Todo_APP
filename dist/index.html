@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/main.css">
+  <title>ToDo | App</title>
+</head>
+<body>
+  <main class="app">
+    <div class="app__background light">
+      <div class="container">
+        <div class="app__header">
+        <h1 class="app__logo">TODO</h1>
+        <button type="button" class="app__toggle-theme light"></button>
+        <input type="text" class="app__input-task light" placeholder="Create a new todo">
+      </div>
+      <ul class="task-list ">
+        <!-- <li class="task-list__task-card light">
+          <input type="checkbox" class="task-list__checkbox" name="task">
+          <span class="checkmark"></span>
+          <button type="button" class="task-list__task"> Read for 1 hour</button>
+          <button type="button" class="task-list__clear-task"></button>
+        </li> -->
+      </ul>
+      <div class="interaction-section light">
+        <small class="interaction-section__message">5 items left</small>
+        <div class="interaction-section__button-filters">
+          <button type="button" class="filter-all">All</button>
+          <button type="button" class="filter-active">Active</button>
+          <button type="button" class="filter-completed">Completed</button>
+        </div>
+        <button type="button" class="interaction-section__clear">Clear Completed</button>
+      </div>
+    </div>
+  </main>
+  <script src="./app.js"></script>
+</body>
+</html>

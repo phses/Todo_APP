@@ -1,0 +1,185 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; }
+
+body {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 1rem;
+  line-height: 1.2rem; }
+
+img {
+  width: 100%; }
+
+.container {
+  width: 500px;
+  margin: 0 auto; }
+
+button {
+  border: none;
+  background: transparent;
+  font-family: "Josefin Sans", sans-serif;
+  cursor: pointer; }
+
+.error {
+  border: 2px solid #f47174; }
+
+input {
+  padding: 1rem;
+  border: none;
+  border-radius: 5px;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 1rem; }
+  input::placeholder {
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 1rem; }
+  input:focus {
+    outline: none; }
+
+.app__background {
+  position: relative;
+  height: 100vh; }
+  .app__background.light {
+    background: #fafafa; }
+  .app__background.light::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 35vh;
+    background: url(../images/bg-desktop-light.jpg) no-repeat center center/cover;
+    z-index: 10; }
+  .app__background.dark {
+    background: #25273c; }
+  .app__background.dark::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 35vh;
+    background: url(../images/bg-desktop-dark.jpg) no-repeat center center/cover;
+    z-index: 10; }
+
+.app__header {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+  padding-top: 65px;
+  color: #fafafa; }
+
+.app__logo {
+  letter-spacing: 0.4rem;
+  z-index: 50; }
+
+.app__toggle-theme.light, .app__toggle-theme.dark {
+  background: transparent;
+  width: 20px;
+  height: 20px;
+  border: none;
+  margin-left: auto;
+  background: url("../images/icon-moon.svg") no-repeat center center/cover;
+  z-index: 50; }
+
+.app__toggle-theme.dark {
+  background: url("../images/icon-sun.svg") no-repeat center center/cover; }
+
+.app__input-task {
+  background-color: #fafafa;
+  margin-top: 40px;
+  grid-column: 1 / span 2;
+  z-index: 50; }
+
+.app__input-task.light {
+  background-color: #fafafa; }
+
+.app__input-task.dark {
+  background-color: #25273c; }
+
+.app .task-list {
+  margin-top: 20px; }
+  .app .task-list__task-card {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0.8rem; }
+    .app .task-list__task-card input:checked ~ .checkmark {
+      background: linear-gradient(to bottom right, #57ddff, #c058f3) !important; }
+    .app .task-list__task-card input:hover ~ .checkmark {
+      border-color: #161722; }
+    .app .task-list__task-card .checkmark {
+      position: relative;
+      height: 20px;
+      width: 20px;
+      border: 1px solid #9394a5;
+      border-radius: 50%; }
+      .app .task-list__task-card .checkmark::after {
+        content: "";
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        width: 10px;
+        height: 10px;
+        background: url(../images/icon-check.svg) no-repeat center center/cover; }
+    .app .task-list__task-card .task-list__checkbox {
+      position: absolute;
+      height: 20px;
+      width: 20px;
+      top: 0.8rem;
+      left: 0.8rem;
+      border-radius: 50%;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 10; }
+    .app .task-list__task-card .task-list__task {
+      padding-left: 1rem;
+      font-size: 1rem; }
+    .app .task-list__task-card .task-list__clear-task {
+      width: 15px;
+      height: 15px;
+      border: none;
+      margin-left: auto;
+      background: url(../images/icon-cross.svg) no-repeat center center/cover; }
+  .app .task-list__task-card.light {
+    background-color: #fafafa;
+    border-bottom: 1px solid #d2d3db;
+    z-index: 50; }
+    .app .task-list__task-card.light .checkmark {
+      background-color: #fafafa; }
+    .app .task-list__task-card.light .task-list__task {
+      color: #484b6a; }
+  .app .task-list__task-card.dark {
+    background-color: #484b6a;
+    border-bottom: 1px solid #9394a5;
+    z-index: 50; }
+    .app .task-list__task-card.dark .checkmark {
+      background-color: #484b6a; }
+    .app .task-list__task-card.dark .task-list__task {
+      color: #cacde8; }
+  .app .task-listtask.checked {
+    color: #9394a5; }
+
+.app .interaction-section {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  color: #9394a5;
+  border-radius: 0 0 5px 5px;
+  z-index: 50; }
+  .app .interaction-section.light {
+    background: #fafafa; }
+    .app .interaction-section.light button {
+      color: #9394a5; }
+      .app .interaction-section.light button:hover {
+        color: #484b6a; }
+  .app .interaction-section.dark {
+    background: #484b6a; }
+    .app .interaction-section.dark button {
+      color: #9394a5; }
+      .app .interaction-section.dark button:hover {
+        color: #cacde8; }
+  .app .interaction-section__button-filters > button {
+    margin-left: 5px; }

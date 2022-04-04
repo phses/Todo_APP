@@ -1,0 +1,22 @@
+// widths 
+$max-width: 1440px;
+
+//Font-family
+
+$font-family: 'Josefin Sans', sans-serif;
+
+// Main colors
+$primary-color: hsl(220, 98%, 61%);
+$checked-button-color: linear-gradient(to bottom right,hsl(192, 100%, 67%),hsl(280, 87%, 65%));
+$soft-grey-color: hsl(236, 9%, 61%);
+
+//Light theme
+
+$bg-light: hsl(0, 0%, 98%);
+$text-dark: hsl(235, 19%, 35%);
+
+//Dark theme
+
+$bg-dark: hsl(235, 24%, 19%);
+$bg-task-list-dark: hsl(235, 19%, 35%);
+$text-light: hsl(234, 39%, 85%);
