@@ -5,18 +5,25 @@ const taskList = document.querySelector('.task-list');
 const toggleTheme = document.querySelector('.app__toggle-theme');
 const backgroundTheme = document.querySelector('.app__background');
 const interactionSection = document.querySelector('.interaction-section');
-let taskCount = 0;
 
+let taskCount = 0;
+let maxTasks = 5
+let tasksRemaining = maxTasks - taskCount;
+
+const message = interactionSection.querySelector('.interaction-section__message');
+message.textContent = `${tasksRemaining} items left`;
 
 function addTask(e) {
   if (e.key === 'Enter') {
     if (newTask.value != ''){
       taskCount++;
+      tasksRemaining = maxTasks - taskCount;
+      message.textContent = `${tasksRemaining} items left`;
       if (taskCount === 1) {
         interactionSection.classList.remove('hidden')
       }
       const li = document.createElement('li');
-      li.className = 'task-list__task-card light';
+      li.className = 'task-list__task-card';
       li.innerHTML = '<input type="checkbox" class="task-list__checkbox" name="task"> <span class="checkmark"></span>';
       const task = document.createElement('button');
       task.className = 'task-list__task';
@@ -72,6 +79,8 @@ function clearTask(e) {
     const task = taskCard.querySelector(".task-list__task");
     taskCard.remove();
     taskCount--;
+    tasksRemaining = maxTasks - taskCount;
+    message.textContent = `${tasksRemaining} items left`; 
     removeTaskLocalStorage(task.innerText);
     if (taskCount === 0) {
       interactionSection.classList.add('hidden');
@@ -81,7 +90,7 @@ function clearTask(e) {
 
 function addTaskByLocalStorage(task) {
         const li = document.createElement('li');
-        li.className = 'task-list__task-card light';
+        li.className = 'task-list__task-card';
         li.innerHTML = '<input type="checkbox" class="task-list__checkbox" name="task"> <span class="checkmark"></span>';
         const taskBtn = document.createElement('button');
         taskBtn.className = 'task-list__task';
@@ -98,7 +107,9 @@ function renderTasks() {
       
   if (localStorage.getItem('tasks') !== null) {
     let tasks = JSON.parse(localStorage.getItem('tasks'));
-    taskCount = tasks.length;  
+    taskCount = tasks.length; 
+    tasksRemaining = maxTasks - taskCount;
+    message.textContent = `${tasksRemaining} items left`; 
     console.log(taskCount);    
     interactionSection.classList.remove('hidden')
     tasks.forEach(addTaskByLocalStorage);
@@ -116,12 +127,19 @@ function changeTaskState(e) {
         inputCheckbox.checked = true;
         e.target.classList.add('checked');
       }
-    } 
+    } else if (e.target.classList.contains('task-list__checkbox')) {
+      const inputCheckbox = e.target.parentElement.querySelector('.task-list__checkbox');
+      const task = e.target.parentElement.querySelector('.task-list__task');
+      if (inputCheckbox.checked) {
+        task.classList.add('checked');
+      } else {
+        task.classList.remove('checked')
+      }
+    }
 }
 
 function changeTheme(e) {
    if (toggleTheme.classList.contains('light')){
-    
     toggleTheme.classList.remove('light');
     toggleTheme.classList.add('dark');
     backgroundTheme.classList.remove('light');
@@ -130,13 +148,9 @@ function changeTheme(e) {
     interactionSection.classList.add('dark');
     newTask.classList.remove('light');
     newTask.classList.add('dark');
-    if (taskCount > 0) {
-      const taskCard = taskList.querySelectorAll('.task-list__task-card');
-      for(let i = 0; i < taskCard.length; i++) {
-        taskCard[i].classList.remove('light');
-        taskCard[i].classList.add('dark');
-      }
-    }
+    taskList.classList.remove('light');
+    taskList.classList.add('dark');
+    
    } else {
     toggleTheme.classList.remove('dark');
     toggleTheme.classList.add('light');
@@ -146,19 +160,63 @@ function changeTheme(e) {
     interactionSection.classList.add('light');
     newTask.classList.remove('dark');
     newTask.classList.add('light');
-    if (taskCount > 0) {
-      const taskCard = taskList.querySelectorAll('.task-list__task-card');
-      for(let i = 0; i < taskCard.length; i++) {
-        taskCard[i].classList.remove('dark');
-        taskCard[i].classList.add('light');
-      }
-    }
+    taskList.classList.remove('dark');
+    taskList.classList.add('light');
+    
    }
    console.log(e.target);
  }
+
+// function clearAllTasks(e) {
+//   const taskCard = taskList.querySelectorAll('.task-list__task-card');
+//   if (e.target.classList.contains('interaction-section__clear')){ for (let i = 0; i < taskCard.length; i++) {
+
+//     taskCard[i].remove();
+//     taskCount--;
+//     removeTaskLocalStorage()
+
+//   }
+// }
+
+function filterTasks(e) {
+  const taskCard = taskList.querySelectorAll('.task-list__task-card');
+  if (e.target.classList.contains('filter-active')) {
+    console.log(taskCard);
+    for (let i = 0; i < taskCard.length; i++) {
+      const inputCheckbox = taskCard[i].querySelector('.task-list__checkbox');
+      console.log(inputCheckbox);
+      if (inputCheckbox.checked) {
+        inputCheckbox.parentElement.classList.add('hidden');
+      } else if (!inputCheckbox.checked) {
+        inputCheckbox.parentElement.classList.remove('hidden');
+      }
+    }
+  }
+  if (e.target.classList.contains('filter-completed')) {
+    console.log(taskCard);
+    for (let i = 0; i < taskCard.length; i++) {
+      const inputCheckbox = taskCard[i].querySelector('.task-list__checkbox');
+      console.log(inputCheckbox);
+      if (inputCheckbox.checked) {
+        inputCheckbox.parentElement.classList.remove('hidden');
+      } else if (!inputCheckbox.checked) {
+        inputCheckbox.parentElement.classList.add('hidden');
+      }
+    }
+  }
+  if (e.target.classList.contains('filter-all')) {
+    for (let i = 0; i < taskCard.length; i++) {
+      const inputCheckbox = taskCard[i].querySelector('.task-list__checkbox');
+      inputCheckbox.parentElement.classList.remove('hidden');
+      }
+    }
+}
+
 
 document.addEventListener('keydown', addTask);
 taskList.addEventListener('click', clearTask);
 taskList.addEventListener('click', changeTaskState);
 toggleTheme.addEventListener('click', changeTheme);
 document.addEventListener('DOMContentLoaded', renderTasks);
+interactionSection.addEventListener('click', filterTasks);
+// interactionSection.addEventListener('click', clearAllTasks);
