@@ -54,7 +54,7 @@ input {
     background: url(../images/bg-desktop-light.jpg) no-repeat center center/cover;
     z-index: 10; }
   .app__background.dark {
-    background: #25273c; }
+    background: #242533; }
   .app__background.dark::before {
     content: "";
     position: absolute;
@@ -99,8 +99,8 @@ input {
   color: #484b6a; }
 
 .app__input-task.dark {
-  background-color: #25273c;
-  color: #cacde8; }
+  background-color: #393a4c;
+  color: #fafafa; }
 
 .app .task-list.light {
   margin-top: 20px; }
@@ -176,13 +176,13 @@ input {
     display: flex;
     align-items: center;
     padding: 0.8rem;
-    background-color: #484b6a;
+    background-color: #393a4c;
     border-bottom: 1px solid #9394a5;
     z-index: 50; }
     .app .task-list.dark .task-list__task-card .checkmark {
-      background-color: #484b6a; }
+      background-color: #393a4c; }
     .app .task-list.dark .task-list__task-card .task-list__task {
-      color: #cacde8; }
+      color: #fafafa; }
     .app .task-list.dark .task-list__task-card input:checked ~ .checkmark {
       background: linear-gradient(to bottom right, #57ddff, #c058f3) !important;
       z-index: -20; }
@@ -223,7 +223,7 @@ input {
       margin-left: auto;
       background: url(../images/icon-cross.svg) no-repeat center center/cover; }
   .app .task-list.dark .task-list__task.checked {
-    color: #d2d3db !important;
+    color: #9394a5 !important;
     position: relative; }
     .app .task-list.dark .task-list__task.checked::after {
       content: '';
@@ -232,7 +232,7 @@ input {
       height: 2px;
       top: 8px;
       left: 10px;
-      background: #d2d3db; }
+      background: #9394a5; }
 
 .app .interaction-section {
   position: relative;
@@ -249,10 +249,10 @@ input {
       .app .interaction-section.light button:hover {
         color: #484b6a; }
   .app .interaction-section.dark {
-    background: #484b6a; }
+    background: #393a4c; }
     .app .interaction-section.dark button {
       color: #9394a5; }
       .app .interaction-section.dark button:hover {
-        color: #cacde8; }
+        color: #fafafa; }
   .app .interaction-section__button-filters > button {
     margin-left: 5px; }

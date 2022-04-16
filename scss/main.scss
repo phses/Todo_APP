@@ -119,7 +119,7 @@ input {
     color: $text-dark
   }
   &__input-task.dark {
-    background-color: $bg-dark;
+    background-color: $bg-task-list-dark;
     color: $text-light;
   }
 
@@ -267,7 +267,7 @@ input {
       }
     }
     .task-list__task.checked {
-      color: hsl(233, 11%, 84%)!important;
+      color: hsl(236, 9%, 61%)!important;
       position: relative;
       &::after {
         content: '';
@@ -276,7 +276,7 @@ input {
         height: 2px;
         top: 8px;
         left: 10px;
-        background: hsl(233, 11%, 84%);
+        background: hsl(236, 9%, 61%);
       }
     }
     
@@ -313,3 +313,4 @@ input {
     }
   }
 }
+

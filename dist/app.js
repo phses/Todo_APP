@@ -113,7 +113,7 @@ function renderTasks() {
     console.log(taskCount);    
     interactionSection.classList.remove('hidden')
     tasks.forEach(addTaskByLocalStorage);
-  }
+  } 
 }
 
 function changeTaskState(e) {
@@ -138,6 +138,22 @@ function changeTaskState(e) {
     }
 }
 
+function setTheme() {
+  let theme = ''
+  if (localStorage.getItem('theme') === null) {
+    //Theme default
+    theme = 'light';
+    localStorage.setItem('theme', 'light');
+  } else {
+    theme = localStorage.getItem('theme')
+  }
+  toggleTheme.classList.add(theme);
+  backgroundTheme.classList.add(theme);
+  interactionSection.classList.add(theme);
+  newTask.classList.add(theme);
+  taskList.classList.add(theme);
+}
+
 function changeTheme(e) {
    if (toggleTheme.classList.contains('light')){
     toggleTheme.classList.remove('light');
@@ -150,6 +166,7 @@ function changeTheme(e) {
     newTask.classList.add('dark');
     taskList.classList.remove('light');
     taskList.classList.add('dark');
+   
     
    } else {
     toggleTheme.classList.remove('dark');
@@ -162,21 +179,31 @@ function changeTheme(e) {
     newTask.classList.add('light');
     taskList.classList.remove('dark');
     taskList.classList.add('light');
-    
    }
-   console.log(e.target);
+  
+  let theme = localStorage.getItem('theme');
+  
+  if (theme === 'light') {
+    localStorage.setItem('theme', 'dark');
+  } else {
+    localStorage.setItem('theme', 'light');
+  }
  }
 
-// function clearAllTasks(e) {
-//   const taskCard = taskList.querySelectorAll('.task-list__task-card');
-//   if (e.target.classList.contains('interaction-section__clear')){ for (let i = 0; i < taskCard.length; i++) {
-
-//     taskCard[i].remove();
-//     taskCount--;
-//     removeTaskLocalStorage()
-
-//   }
-// }
+function clearAllTasks(e) {
+  const taskCard = taskList.querySelectorAll('.task-list__task-card');
+  if (e.target.classList.contains('interaction-section__clear')){ 
+    for (let i = 0; i < taskCard.length; i++) {
+      taskCard[i].remove();
+      taskCount--;
+      tasksRemaining = maxTasks - taskCount;
+      message.textContent = `${tasksRemaining} items left`; 
+      let task = taskCard[i].querySelector('.task-list__task').textContent;
+      removeTaskLocalStorage(task);
+      interactionSection.classList.add('hidden');
+    }
+  }
+}
 
 function filterTasks(e) {
   const taskCard = taskList.querySelectorAll('.task-list__task-card');
@@ -218,5 +245,6 @@ taskList.addEventListener('click', clearTask);
 taskList.addEventListener('click', changeTaskState);
 toggleTheme.addEventListener('click', changeTheme);
 document.addEventListener('DOMContentLoaded', renderTasks);
+document.addEventListener('DOMContentLoaded', setTheme);
 interactionSection.addEventListener('click', filterTasks);
-// interactionSection.addEventListener('click', clearAllTasks);
+interactionSection.addEventListener('click', clearAllTasks);
