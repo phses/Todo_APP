@@ -256,3 +256,34 @@ input {
         color: #fafafa; }
   .app .interaction-section__button-filters > button {
     margin-left: 5px; }
+
+.button-filters__mobile {
+  display: none; }
+
+@media (max-width: 400px) {
+  .container {
+    width: 100%;
+    padding: 1.5rem; }
+  .interaction-section__button-filters {
+    display: none; }
+  .button-filters__mobile {
+    width: 100%;
+    padding: 0.8rem;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 1rem; }
+    .button-filters__mobile button {
+      font-size: 1rem; }
+    .button-filters__mobile.light {
+      background: #fafafa; }
+      .button-filters__mobile.light button {
+        color: #9394a5; }
+        .button-filters__mobile.light button:hover {
+          color: #484b6a; }
+    .button-filters__mobile.dark {
+      background: #393a4c; }
+      .button-filters__mobile.dark button {
+        color: #9394a5; }
+        .button-filters__mobile.dark button:hover {
+          color: #fafafa; } }

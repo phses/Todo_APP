@@ -5,6 +5,14 @@ const taskList = document.querySelector('.task-list');
 const toggleTheme = document.querySelector('.app__toggle-theme');
 const backgroundTheme = document.querySelector('.app__background');
 const interactionSection = document.querySelector('.interaction-section');
+const btnFiltersMobile = document.querySelector('.button-filters__mobile');
+
+class Task {
+  constructor(taskName, state) {
+    this.taskName = taskName;
+    this.state = state;
+  }
+}
 
 let taskCount = 0;
 let maxTasks = 5
@@ -16,20 +24,19 @@ message.textContent = `${tasksRemaining} items left`;
 function addTask(e) {
   if (e.key === 'Enter') {
     if (newTask.value != ''){
+      const task = new Task(newTask.value, 'unchecked');
       taskCount++;
       tasksRemaining = maxTasks - taskCount;
       message.textContent = `${tasksRemaining} items left`;
-      if (taskCount === 1) {
-        interactionSection.classList.remove('hidden')
-      }
+      interactionSection.classList.remove('hidden')
       const li = document.createElement('li');
       li.className = 'task-list__task-card';
       li.innerHTML = '<input type="checkbox" class="task-list__checkbox" name="task"> <span class="checkmark"></span>';
-      const task = document.createElement('button');
-      task.className = 'task-list__task';
-      saveTaskLocalStorage(newTask.value);
-      task.appendChild(document.createTextNode(newTask.value));
-      li.appendChild(task);
+      const taskBtn = document.createElement('button');
+      taskBtn.className = 'task-list__task';
+      saveTaskLocalStorage(task);
+      taskBtn.appendChild(document.createTextNode(task.taskName));
+      li.appendChild(taskBtn);
       const btnClearTask = document.createElement('button');
       btnClearTask.className = 'task-list__clear-task';
       li.appendChild(btnClearTask);
@@ -50,7 +57,7 @@ function addTask(e) {
 }
 
 function saveTaskLocalStorage(task) {
-  let tasks = [];
+  let tasks;
   if (localStorage.getItem('tasks') === null) {
     tasks = [];
   } else {
@@ -91,16 +98,15 @@ function clearTask(e) {
 function addTaskByLocalStorage(task) {
         const li = document.createElement('li');
         li.className = 'task-list__task-card';
-        li.innerHTML = '<input type="checkbox" class="task-list__checkbox" name="task"> <span class="checkmark"></span>';
+        li.innerHTML = `<input type="checkbox" class="task-list__checkbox" name="task" ${task.state}> <span class="checkmark"></span>`;
         const taskBtn = document.createElement('button');
-        taskBtn.className = 'task-list__task';
-        taskBtn.appendChild(document.createTextNode(task));
+        taskBtn.className = `task-list__task ${task.state}`;
+        taskBtn.appendChild(document.createTextNode(task.taskName));
         li.appendChild(taskBtn);
         const btnClearTask = document.createElement('button');
         btnClearTask.className = 'task-list__clear-task';
         li.appendChild(btnClearTask);
         taskList.appendChild(li);
-        console.log(li);
 }
 
 function renderTasks() {
@@ -118,32 +124,46 @@ function renderTasks() {
 
 function changeTaskState(e) {
     if (e.target.classList.contains('task-list__task')) {
-      const inputCheckbox = e.target.parentElement.querySelector('.task-list__checkbox');
+      const task = e.target;
+      const inputCheckbox = task.parentElement.querySelector('.task-list__checkbox');
       console.log(inputCheckbox.checked);
       if (inputCheckbox.checked) {
         inputCheckbox.checked = false;
-        e.target.classList.remove('checked')
+        task.classList.remove('checked')
+        changeStateLocalStorage(task.textContent, 'unchecked');
       } else {
         inputCheckbox.checked = true;
         e.target.classList.add('checked');
+        changeStateLocalStorage(task.textContent, 'checked');
       }
     } else if (e.target.classList.contains('task-list__checkbox')) {
       const inputCheckbox = e.target.parentElement.querySelector('.task-list__checkbox');
       const task = e.target.parentElement.querySelector('.task-list__task');
       if (inputCheckbox.checked) {
         task.classList.add('checked');
+        changeStateLocalStorage(task.textContent, 'checked');
       } else {
-        task.classList.remove('checked')
+        task.classList.remove('checked');
+        changeStateLocalStorage(task.textContent, 'unchecked');
       }
     }
 }
+
+function changeStateLocalStorage(task, state) {
+   let tasks = JSON.parse(localStorage.getItem('tasks'));
+   tasks.forEach(function (taskObj) {
+    if (taskObj.taskName === task) {
+      taskObj.state = state;
+    }
+   })
+   localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
 
 function setTheme() {
   let theme = ''
   if (localStorage.getItem('theme') === null) {
     //Theme default
     theme = 'light';
-    localStorage.setItem('theme', 'light');
   } else {
     theme = localStorage.getItem('theme')
   }
@@ -152,6 +172,8 @@ function setTheme() {
   interactionSection.classList.add(theme);
   newTask.classList.add(theme);
   taskList.classList.add(theme);
+  btnFiltersMobile.classList.add(theme);
+  localStorage.setItem('theme', theme);
 }
 
 function changeTheme(e) {
@@ -166,8 +188,9 @@ function changeTheme(e) {
     newTask.classList.add('dark');
     taskList.classList.remove('light');
     taskList.classList.add('dark');
+    btnFiltersMobile.classList.remove('light');
+    btnFiltersMobile.classList.add('dark');
    
-    
    } else {
     toggleTheme.classList.remove('dark');
     toggleTheme.classList.add('light');
@@ -179,6 +202,8 @@ function changeTheme(e) {
     newTask.classList.add('light');
     taskList.classList.remove('dark');
     taskList.classList.add('light');
+    btnFiltersMobile.classList.remove('dark');
+    btnFiltersMobile.classList.add('light');
    }
   
   let theme = localStorage.getItem('theme');
@@ -248,3 +273,5 @@ document.addEventListener('DOMContentLoaded', renderTasks);
 document.addEventListener('DOMContentLoaded', setTheme);
 interactionSection.addEventListener('click', filterTasks);
 interactionSection.addEventListener('click', clearAllTasks);
+btnFiltersMobile.addEventListener('click', filterTasks);
+btnFiltersMobile.addEventListener('click', clearAllTasks);

@@ -313,4 +313,48 @@ input {
     }
   }
 }
+.button-filters__mobile {
+  display: none;
+}
+@media (max-width: 400px) {
+  .container {
+    width: 100%;
+    padding: 1.5rem;
+  }
+  
+  .interaction-section {
+    &__button-filters {
+      display: none;
+    }
+  }
+  .button-filters__mobile {
+    width: 100%;
+    padding: 0.8rem;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 1rem;
+    button {
+      font-size: 1rem;
+    }
+    &.light {
+      background: $bg-light;
+      button {
+        color: $soft-grey-color;
+        &:hover {
+          color: $text-dark;
+        }
+      }
+    }
+    &.dark {
+      background: $bg-task-list-dark;
+      button {
+        color: $soft-grey-color;
+        &:hover {
+          color: $text-light;
+        }
+      }
+    }
+  }
 
+}
