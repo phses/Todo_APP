@@ -6,6 +6,7 @@ const toggleTheme = document.querySelector('.app__toggle-theme');
 const backgroundTheme = document.querySelector('.app__background');
 const interactionSection = document.querySelector('.interaction-section');
 const btnFiltersMobile = document.querySelector('.button-filters__mobile');
+const message = interactionSection.querySelector('.interaction-section__message');
 
 class Task {
   constructor(taskName, state) {
@@ -16,33 +17,23 @@ class Task {
 
 let taskCount = 0;
 let maxTasks = 5
-let tasksRemaining = maxTasks - taskCount;
 
-const message = interactionSection.querySelector('.interaction-section__message');
-message.textContent = `${tasksRemaining} items left`;
+//Altera a quantidades de itens restantes
+function setTaskRemaining(count) {
+  let tasksRemaining = maxTasks - count;  
+  message.textContent = `${tasksRemaining} items left`;
+}
+setTaskRemaining(taskCount);
 
 function addTask(e) {
-  if (e.key === 'Enter') {
+  if (e.key === 'Enter' && taskCount <= maxTasks-1) {
     if (newTask.value != ''){
       const task = new Task(newTask.value, 'unchecked');
       taskCount++;
-      tasksRemaining = maxTasks - taskCount;
-      message.textContent = `${tasksRemaining} items left`;
+      setTaskRemaining(taskCount);
       interactionSection.classList.remove('hidden')
-      const li = document.createElement('li');
-      li.className = 'task-list__task-card';
-      li.innerHTML = '<input type="checkbox" class="task-list__checkbox" name="task"> <span class="checkmark"></span>';
-      const taskBtn = document.createElement('button');
-      taskBtn.className = 'task-list__task';
       saveTaskLocalStorage(task);
-      taskBtn.appendChild(document.createTextNode(task.taskName));
-      li.appendChild(taskBtn);
-      const btnClearTask = document.createElement('button');
-      btnClearTask.className = 'task-list__clear-task';
-      li.appendChild(btnClearTask);
-      taskList.appendChild(li);
-      
-      console.log(li);
+      createTaskUI(task);
       newTask.value = '';
       console.log(taskCount);
       if (newTask.classList.contains('error')) {
@@ -50,7 +41,6 @@ function addTask(e) {
       }
     } else {
       newTask.classList.add('error');
-      console.log(newTask);
     }
 
   }
@@ -64,7 +54,6 @@ function saveTaskLocalStorage(task) {
     tasks = JSON.parse(localStorage.getItem('tasks'));
   }
   tasks.push(task);
-  console.log(tasks);
   localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
@@ -86,8 +75,7 @@ function clearTask(e) {
     const task = taskCard.querySelector(".task-list__task");
     taskCard.remove();
     taskCount--;
-    tasksRemaining = maxTasks - taskCount;
-    message.textContent = `${tasksRemaining} items left`; 
+    setTaskRemaining(taskCount);
     removeTaskLocalStorage(task.innerText);
     if (taskCount === 0) {
       interactionSection.classList.add('hidden');
@@ -95,31 +83,31 @@ function clearTask(e) {
   }
 }
 
-function addTaskByLocalStorage(task) {
-        const li = document.createElement('li');
-        li.className = 'task-list__task-card';
-        li.innerHTML = `<input type="checkbox" class="task-list__checkbox" name="task" ${task.state}> <span class="checkmark"></span>`;
-        const taskBtn = document.createElement('button');
-        taskBtn.className = `task-list__task ${task.state}`;
-        taskBtn.appendChild(document.createTextNode(task.taskName));
-        li.appendChild(taskBtn);
-        const btnClearTask = document.createElement('button');
-        btnClearTask.className = 'task-list__clear-task';
-        li.appendChild(btnClearTask);
-        taskList.appendChild(li);
+function createTaskUI(task) {
+  const li = document.createElement('li');
+  li.className = 'task-list__task-card';
+  li.innerHTML = `<input type="checkbox" class="task-list__checkbox" name="task" ${task.state}> <span class="checkmark"></span>`;
+  const taskBtn = document.createElement('button');
+  taskBtn.className = `task-list__task ${task.state}`;
+  taskBtn.appendChild(document.createTextNode(task.taskName));
+  li.appendChild(taskBtn);
+  const btnClearTask = document.createElement('button');
+  btnClearTask.className = 'task-list__clear-task';
+  li.appendChild(btnClearTask);
+  taskList.appendChild(li);
 }
 
 function renderTasks() {
-      
   if (localStorage.getItem('tasks') !== null) {
     let tasks = JSON.parse(localStorage.getItem('tasks'));
     taskCount = tasks.length; 
-    tasksRemaining = maxTasks - taskCount;
-    message.textContent = `${tasksRemaining} items left`; 
+    setTaskRemaining(taskCount);
     console.log(taskCount);    
     interactionSection.classList.remove('hidden')
-    tasks.forEach(addTaskByLocalStorage);
-  } 
+    tasks.forEach(createTaskUI);
+  } else {
+    interactionSection.classList.add('hidden');
+  }
 }
 
 function changeTaskState(e) {
@@ -221,8 +209,7 @@ function clearAllTasks(e) {
     for (let i = 0; i < taskCard.length; i++) {
       taskCard[i].remove();
       taskCount--;
-      tasksRemaining = maxTasks - taskCount;
-      message.textContent = `${tasksRemaining} items left`; 
+      setTaskRemaining(taskCount);
       let task = taskCard[i].querySelector('.task-list__task').textContent;
       removeTaskLocalStorage(task);
       interactionSection.classList.add('hidden');
