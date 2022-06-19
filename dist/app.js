@@ -8,10 +8,12 @@ const interactionSection = document.querySelector('.interaction-section');
 const btnFiltersMobile = document.querySelector('.button-filters__mobile');
 const message = interactionSection.querySelector('.interaction-section__message');
 
+
 class Task {
-  constructor(taskName, state) {
+  constructor(taskName, state, id) {
     this.taskName = taskName;
     this.state = state;
+    this.id = id;
   }
 }
 
@@ -28,7 +30,7 @@ setTaskRemaining(taskCount);
 function addTask(e) {
   if (e.key === 'Enter' && taskCount <= maxTasks-1) {
     if (newTask.value != ''){
-      const task = new Task(newTask.value, 'unchecked');
+      const task = new Task(newTask.value, 'unchecked', taskCount);
       taskCount++;
       setTaskRemaining(taskCount);
       interactionSection.classList.remove('hidden')
@@ -86,6 +88,8 @@ function clearTask(e) {
 function createTaskUI(task) {
   const li = document.createElement('li');
   li.className = 'task-list__task-card';
+  //Permite que o elemento seja arrastado
+  li.setAttribute('draggable', true);
   li.innerHTML = `<input type="checkbox" class="task-list__checkbox" name="task" ${task.state}> <span class="checkmark"></span>`;
   const taskBtn = document.createElement('button');
   taskBtn.className = `task-list__task ${task.state}`;
@@ -251,6 +255,43 @@ function filterTasks(e) {
     }
 }
 
+let dragSrcEl = null
+
+
+function handleDragStart(e) {
+  if (e.target.className === 'task-list__task-card'){
+    e.target.style.opacity = '0.4';  
+    dragSrcEl = e.target;
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', e.target.innerHTML);
+  }
+}
+function handleDragEnd(e) {
+  e.target.style.opacity = '1';
+}
+function handleDragEnter(e) {
+  e.target.classList.add('over');
+}
+function handleDragLeave(e) {
+  e.target.classList.remove('over');
+}
+function handleDragOver(e) {
+  e.preventDefault();
+}
+function handleDrop(e) {
+
+  e.preventDefault();
+
+  if (e.target !== dragSrcEl && e.target.className === 'task-list__task-card over') {
+    console.log(e.target.className)
+    dragSrcEl.innerHTML = e.target.innerHTML
+    let data = e.dataTransfer.getData('text/html')
+    console.log(data)  
+    e.target.innerHTML = data;
+    e.target.classList.remove('over');
+  }
+
+}
 
 document.addEventListener('keydown', addTask);
 taskList.addEventListener('click', clearTask);
@@ -262,3 +303,9 @@ interactionSection.addEventListener('click', filterTasks);
 interactionSection.addEventListener('click', clearAllTasks);
 btnFiltersMobile.addEventListener('click', filterTasks);
 btnFiltersMobile.addEventListener('click', clearAllTasks);
+taskList.addEventListener('dragstart', handleDragStart);
+taskList.addEventListener('dragend', handleDragEnd);
+taskList.addEventListener('dragenter', handleDragEnter);
+taskList.addEventListener('dragleave', handleDragLeave);
+taskList.addEventListener('dragover', handleDragOver);
+taskList.addEventListener('drop', handleDrop);
