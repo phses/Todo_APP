@@ -25,7 +25,8 @@ Usuários estão aptos a:
 - Ver a quantidade de tarefas restantes que podem ser adicionadas
 - Deletar todas as tarefas
 - Filtrar por all/active/complete 
-- Mudar o tema do app para o modo light ou dark 
+- Mudar o tema do app para o modo light ou dark
+- Drag and drop tarefas (As alterações feitas com drang and drop ainda não estão sendo salvas no local storage)
 
 ### Screenshot
 
