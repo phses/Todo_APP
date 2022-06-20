@@ -255,14 +255,19 @@ function filterTasks(e) {
     }
 }
 
+//CÓDIGO QUE ABILITA A FUNCIONALIDADE DRAG AND DROP
+
 let dragSrcEl = null
 
-
+//FUNÇÃO QUE EXECUTA A PARTIR DO MOMENTO EM QUE ARRASTE COMEÇA
 function handleDragStart(e) {
   if (e.target.className === 'task-list__task-card'){
-    e.target.style.opacity = '0.4';  
+    e.target.style.opacity = '0.4'; 
+    //SALVA O ELEMENTO PARA RECEBER OS DADOS DO ITEM QUE SERÁ SUBSTITUIDO PELO DRAG 
     dragSrcEl = e.target;
+    //MOVE OS DADOS JUNTO COM O ITEM DRAG
     e.dataTransfer.effectAllowed = 'move';
+    //ESPECIFICA O TIPO DE DADO QUE ESTAMOS MOVENDO
     e.dataTransfer.setData('text/html', e.target.innerHTML);
   }
 }
@@ -270,12 +275,14 @@ function handleDragEnd(e) {
   e.target.style.opacity = '1';
 }
 function handleDragEnter(e) {
+  //CAUSA UM EFEITO DE QUE AQUELE ESPAÇO PERMITE O DROP
   e.target.classList.add('over');
 }
 function handleDragLeave(e) {
   e.target.classList.remove('over');
 }
 function handleDragOver(e) {
+  //É NECESSÁRIO O PREVENT DEFAULT NO DRAG OVER PARA QUE A FUNÇÃO DE DROP SEJA EXECUTADA
   e.preventDefault();
 }
 function handleDrop(e) {
@@ -297,12 +304,15 @@ document.addEventListener('keydown', addTask);
 taskList.addEventListener('click', clearTask);
 taskList.addEventListener('click', changeTaskState);
 toggleTheme.addEventListener('click', changeTheme);
-document.addEventListener('DOMContentLoaded', renderTasks);
-document.addEventListener('DOMContentLoaded', setTheme);
 interactionSection.addEventListener('click', filterTasks);
 interactionSection.addEventListener('click', clearAllTasks);
+//EVENTOS PARA O CARREGAMENTO DA PÁGINA
+document.addEventListener('DOMContentLoaded', renderTasks);
+document.addEventListener('DOMContentLoaded', setTheme);
+//EVENTOS PARA BTN DISPOSITIVO MOBILE
 btnFiltersMobile.addEventListener('click', filterTasks);
 btnFiltersMobile.addEventListener('click', clearAllTasks);
+// EVENTOS REFERENTES A FUNCIONALIDADE DND
 taskList.addEventListener('dragstart', handleDragStart);
 taskList.addEventListener('dragend', handleDragEnd);
 taskList.addEventListener('dragenter', handleDragEnter);
